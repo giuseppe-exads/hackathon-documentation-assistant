@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Configuration, OpenAIApi } from 'openai';
 import { Observable, filter, from, map, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ export class OpenAiService {
   constructor() {}
 
   readonly configuration = new Configuration({
-    apiKey: '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',
+    apiKey: environment.open_AI_API_KEY,
   });
   readonly openai = new OpenAIApi(this.configuration);
 
