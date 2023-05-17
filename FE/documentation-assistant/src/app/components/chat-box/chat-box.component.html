@@ -1,0 +1,13 @@
+<div class="chat-container">
+  <mat-card
+    *ngFor="let message of chat"
+    [ngClass]="{ 'align-right': message.sender === 'User' }"
+  >
+    <p *ngIf="message.sender === 'System'" appTypewriter>
+      {{ message.text }}
+    </p>
+    <p *ngIf="message.sender === 'User'">
+      {{ message.text }}
+    </p>
+  </mat-card>
+</div>
