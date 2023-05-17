@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Configuration, OpenAIApi } from 'openai';
-import { Observable, filter, from, map } from 'rxjs';
+import { Observable, filter, from, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ export class OpenAiService {
   constructor() {}
 
   readonly configuration = new Configuration({
-    apiKey: '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',
+    apiKey: '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',
   });
   readonly openai = new OpenAIApi(this.configuration);
 
@@ -28,6 +28,12 @@ export class OpenAiService {
           data.choices && data.choices.length > 0 && data.choices[0].text
       ),
       map((data) => data.choices[0].text)
+    );
+  }
+
+  getDataFromOpenAIFake(text: string): Observable<string> {
+    return of(
+      text
     );
   }
 }
