@@ -21,13 +21,11 @@ export class AIService {
                     const cats = categories.map((category) => `"${category.name}"`);
                     const messageToSend =
                         `ChatGPT, could you return me one of the next labels, ${cats.join(',')}, that you can assign to the next sentence, "${messageFromUser}"?
-                        if you don't find any label return "No detected" into the JSON after defined. 
-                        The label will be returned using a JSON format of this type { "label": string } into the "label" property and no extra text`;
+                        if you don't find any label return "No detected"`;
                     return this.openAIService.getDataFromOpenAI(messageToSend)
                         .pipe(
                             switchMap((messageFromChatGPT) => {
-                                const result = JSON.parse(messageFromChatGPT.trim().replace('.\n\n', '')) as { label: string };
-                                const category = categories.find(cat => cat.name === result.label);
+                                const category = categories.find(cat => messageFromChatGPT.includes(cat.name));
 
                                 if (!this.utilityService.isNullOrUndefined(category)) {
                                     return this.apiService.getCategories(2, category?.id)
