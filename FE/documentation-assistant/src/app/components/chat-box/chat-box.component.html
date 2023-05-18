@@ -1,4 +1,4 @@
-<div class="chat-container">
+<div class="chat-container" #scrollContainer>
   <mat-card
     *ngFor="let message of chat"
     [ngClass]="{ 'align-right': message.sender === 'User' }"
@@ -9,5 +9,12 @@
     <p *ngIf="message.sender === 'User'">
       {{ message.text }}
     </p>
+  </mat-card>
+  <mat-card class="typing-card" *ngIf="isGenerating">
+    <div class="typing-dots">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
   </mat-card>
 </div>

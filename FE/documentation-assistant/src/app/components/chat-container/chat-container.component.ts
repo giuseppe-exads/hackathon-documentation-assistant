@@ -21,22 +21,28 @@ export class ChatContainerComponent implements OnInit {
   chat: ChatMessage[] = [];
   isGeneratingResponse: boolean = false;
 
-
   constructor(
     private openAiService: OpenAiService,
     private aiService: AIService,
     private utilityService: UtilityService,
-    private APIService: MockAPIService) {}
+    private APIService: MockAPIService
+  ) {}
 
   ngOnInit(): void {
     //fake selection (to do by a combo)
-    const categories = this.APIService.getCategories(1)
-    .subscribe(
+    const categories = this.APIService.getCategories(1).subscribe(
       (category) => {
         // payments
         //this.selectedCategory = category[1];
       }
     );
+  }
+
+  triggerFunction(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      !!this.message && this.onSend();
+    }
   }
 
   onSend1() {
@@ -70,11 +76,11 @@ export class ChatContainerComponent implements OnInit {
   }
 
   generateResponse1(prompt: string, category?: Category) {
-    if(!this.utilityService.isNullOrUndefined(category)) {
+    if (!this.utilityService.isNullOrUndefined(category)) {
       this.onSelectMessageByCategory(prompt, <Category>category);
     } else {
-      this.aiService.makeStepByMessage(prompt)
-        .subscribe(options => {
+      this.aiService.makeStepByMessage(prompt).subscribe(
+        (options) => {
           this.isGeneratingResponse = false;
           // send the categories to the chat and go listening (by using onSelectedOption)
           console.log(options);
@@ -82,16 +88,15 @@ export class ChatContainerComponent implements OnInit {
             this.onSelectedOption(options[0]);
           }
         },
-          (error) => console.log('error:', error),
-          () => {
-  
-          });
+        (error) => console.log('error:', error),
+        () => {}
+      );
     }
   }
 
   /**
    * The user has selected one option (category)
-   * @param category 
+   * @param category
    */
   onSelectedOption(category: Category) {
     // send the category to the category response
@@ -100,18 +105,16 @@ export class ChatContainerComponent implements OnInit {
 
   /**
    * The user request to translate a text message
-   * @param category 
-   * @param language 
+   * @param category
+   * @param language
    */
   onTranslateMessage(category: Category, language: string) {
-    this.aiService.translate(<string>category.textDoc, language)
-      .subscribe(
-        (message => {
-          console.log('Doc translated -> ', message);
-        })
-      );
+    this.aiService
+      .translate(<string>category.textDoc, language)
+      .subscribe((message) => {
+        console.log('Doc translated -> ', message);
+      });
   }
-
 
   /**
    * The user firstly has selected a category of first level from a combom
@@ -122,17 +125,16 @@ export class ChatContainerComponent implements OnInit {
   onSelectMessageByCategory(message: string, category: Category) {
     const categoriesToReturnToChat = new Array<Category>();
 
-    this.aiService.makeStepByCategory(category, message)
-      .subscribe(
-        (category) => {
-          console.log(category);
-          categoriesToReturnToChat.push(category);
-        },
-        (error) => console.log('error:', error),
-        () => {
-          // send the categories to the options component
-          console.log('Send to UI:', categoriesToReturnToChat)
-        }
-      );
+    this.aiService.makeStepByCategory(category, message).subscribe(
+      (category) => {
+        console.log(category);
+        categoriesToReturnToChat.push(category);
+      },
+      (error) => console.log('error:', error),
+      () => {
+        // send the categories to the options component
+        console.log('Send to UI:', categoriesToReturnToChat);
+      }
+    );
   }
 }

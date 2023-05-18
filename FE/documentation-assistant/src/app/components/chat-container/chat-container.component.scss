@@ -1,25 +1,85 @@
 .container {
-    background-color: lightgrey;
+    border: 1px solid lightgrey;
+    background-color: rgb(246, 246, 246);
+    box-shadow: none;
     width: 500px;
-    height: 600px;
+    height: fit-content;
 
     .chat-box {
-        height: 500px;
+        height: 540px;
         overflow: scroll;
     }
 
-    mat-form-field {
-        width: 100%;
-        background-color: white;
-        border-radius: 5px;
-        padding: 5px;
-        
-        ::ng-deep .mat-form-field-infix {
-            display: flex;
+  
 
-        }    
+    .message-input {
+        width: 100%;
+        
+      
+.custom-textarea {
+    background-color: white;
+    position: relative;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none; 
+  }
+  
+  .custom-textarea:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+
+
+  
+
+  .custom-textarea textarea {
+    width: 95%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+  }
+  
+  .custom-textarea .placeholder {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #999;
+  }
+
+  .custom-textarea .placeholder.active {
+    display: none;
+  }
+  
+  .send-icon {
+    position: absolute;
+    top: 45%;
+    right: 0px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: grey;
+
+    &.disabled {
+        color:  rgb(190, 190, 190);
+    }
+
+    mat-icon {
+        transform: rotate(320deg);
+    }
+  }
+  
 
         mat-icon {
+            line-height: 20px;
+            height: 20px;
+            width: 20px;
+            font-size: 20px;
             transform: rotate(320deg);
         }
     }
