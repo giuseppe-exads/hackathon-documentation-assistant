@@ -51,16 +51,30 @@ export class ChatContainerComponent implements OnInit {
   }
 
   generateResponse1(prompt: string) {
-    this.aiService.makeStepNew1(prompt).subscribe((data) => {
+    this.aiService.makeStep(prompt).subscribe((options) => {
       this.isGeneratingResponse = false;
-      console.log('step1:', data);
-     /* this.chat.push({
-        sender: 'System',
-        text: data,
-      });*/
+      // send the categories to the chat and go listening (by using onSelectedOption)
+      console.log(options);
+      if(options.length > 0) {
+        this.onSelectedOption(options[0]);
+      }
     }, undefined,
     ()=> {
       console.log('step1:', 'No detected');
     });
+  }
+
+  onSelectedOption(category: Category) {
+    // send the category to the category response
+    this.onTranslateMessage(category, 'Italian');
+  }
+
+  onTranslateMessage(category: Category, language: string) {
+    this.aiService.translate(<string>category.textDoc, language)
+      .subscribe(
+        (message => {
+          console.log('Doc translated -> ', message);
+        })
+      );
   }
 }
