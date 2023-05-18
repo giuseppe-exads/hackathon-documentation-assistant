@@ -1,12 +1,19 @@
 var express = require("express");
 var router = express.Router();
 var config = require("../config.js");
-var mongodb = require("mongoose");
+var mongodb = require("mongodb");
 var mongoClient = mongodb.MongoClient;
-mongodb.set("strictQuery", false);
-mongodb.connect(config.mongodbUrl, function (err, db) {
+var mongoClientSub = mongodb.MongoClient;
+var categories;
+
+mongoClient.connect(config.mongodbUrl, function (err, db) {
   if (err) throw err;
   categories = db.collection("categories");
+});
+
+mongoClientSub.connect(config.mongodbUrl, function (err, db) {
+  if (err) throw err;
+  subcategories = db.collection("subcategories");
 });
 
 router.get("/", function (req, res, next) {
@@ -18,8 +25,9 @@ router.get("/", function (req, res, next) {
 
 router.get("/:id", function (req, res, next) {
   var categoryId = req.params.id;
+  console.log({ _id: new mongodb.ObjectId(categoryId) });
   categories.findOne(
-    { _id: new mongodb.ObjectID(categoryId) },
+    { _id: new mongodb.ObjectId(categoryId) },
     function (err, docs) {
       if (err) throw err;
       res.json(docs);
