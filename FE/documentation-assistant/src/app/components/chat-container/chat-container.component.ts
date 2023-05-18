@@ -74,7 +74,7 @@ export class ChatContainerComponent implements OnInit {
       sender: 'User',
       text: this.message,
     });
-    this.generateResponse(this.message);
+    this.generateResponse1(this.message);
     this.message = '';
     this.isGeneratingResponse = true;
   }
@@ -108,6 +108,7 @@ export class ChatContainerComponent implements OnInit {
         },
         (error) => {
           this.isGeneratingResponse = false;
+          this.options = [];
           this.chat.push({
             sender: 'System',
             text: "I'm very sorry. But I can't support you. Please call Benja!",
@@ -156,6 +157,7 @@ export class ChatContainerComponent implements OnInit {
       },
       (error) => {
         this.isGeneratingResponse = false;
+        this.options = [];
         this.chat.push({
           sender: 'System',
           text: "I'm very sorry. But I can't support you. Please call Benja!",

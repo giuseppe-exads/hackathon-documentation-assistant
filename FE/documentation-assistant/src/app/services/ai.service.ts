@@ -22,7 +22,7 @@ export class AIService {
                     const messageToSend =
                         `ChatGPT, could you return me one of the next labels, ${cats.join(',')}, that you can assign to the next sentence, "${messageFromUser}"?
                         if you don't find any label return "No detected"`;
-                    return this.openAIService.getDataFromOpenAI(messageToSend)
+                    return this.openAIService.getDataFromOpenAI(messageToSend.trim())
                         .pipe(
                             switchMap((messageFromChatGPT) => {
                                 const response = messageFromChatGPT.trim();
@@ -47,7 +47,7 @@ export class AIService {
                     const messageToSend =
                         `ChatGPT, could you return one or more labels, among ${subCats.join(',')}, that you can assign to the next sentence, "${messageFromUser}"?
                         if you don't find any label return "No detected"`;
-                    return this.openAIService.getDataFromOpenAI(messageToSend)
+                    return this.openAIService.getDataFromOpenAI(messageToSend.trim())
                         .pipe(
                             switchMap((messageFromChatGPT) => {
                                 const subCats = subCategories.map((category) => `${category.name}`);

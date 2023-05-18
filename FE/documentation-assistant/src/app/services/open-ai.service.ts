@@ -18,7 +18,7 @@ export class OpenAiService {
     return from(
       this.openai.createCompletion({
         model: 'text-davinci-003',
-        prompt: text,
+        prompt: text.replace('\n', '').trim(),
         max_tokens: 256
       })
     ).pipe(
@@ -29,12 +29,6 @@ export class OpenAiService {
           data.choices && data.choices.length > 0 && data.choices[0].text
       ),
       map((data) => data.choices[0].text)
-    );
-  }
-
-  getDataFromOpenAIFake(text: string): Observable<string> {
-    return of(
-      text
     );
   }
 }
