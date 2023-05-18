@@ -47,7 +47,7 @@ export class ChatContainerComponent implements OnInit {
     const categories = this.APIService.getCategories(1).subscribe(
       (category) => {
         // payments
-        this.selectedCategory = category[1];
+        //this.selectedCategory = category[1];
       }
     );
   }
