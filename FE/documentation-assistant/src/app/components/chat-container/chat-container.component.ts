@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Category } from 'src/app/models/category.model';
 import { AIService } from 'src/app/services/ai.service';
 import { OpenAiService } from 'src/app/services/open-ai.service';
 import { ChatMessage } from 'src/app/shared/chat-message.model';
@@ -50,13 +51,16 @@ export class ChatContainerComponent implements OnInit {
   }
 
   generateResponse1(prompt: string) {
-    this.aiService.makeStep1(prompt).subscribe((data) => {
+    this.aiService.makeStepNew1(prompt).subscribe((data) => {
       this.isGeneratingResponse = false;
       console.log('step1:', data);
-      this.chat.push({
+     /* this.chat.push({
         sender: 'System',
         text: data,
-      });
+      });*/
+    }, undefined,
+    ()=> {
+      console.log('step1:', 'No detected');
     });
   }
 }

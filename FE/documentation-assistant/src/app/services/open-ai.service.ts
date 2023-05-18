@@ -19,7 +19,7 @@ export class OpenAiService {
       this.openai.createCompletion({
         model: 'text-davinci-003',
         prompt: text,
-        max_tokens: 256,
+        max_tokens: 256
       })
     ).pipe(
       filter((resp) => !!resp && !!resp.data),
