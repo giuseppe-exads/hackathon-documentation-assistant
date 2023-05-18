@@ -20,9 +20,10 @@ export class ChatBoxComponent implements AfterViewInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
   @Input() chat: ChatMessage[] = [];
   @Input() isGenerating: boolean = false;
-  options: Category[];
+  @Input() options: Category[];
+  @Input() messageForOptions = '';
+  
   selectedChoice: Category;
-  messageForOptions = '';
 
   constructor(
     private renderer: Renderer2,
@@ -31,11 +32,12 @@ export class ChatBoxComponent implements AfterViewInit {
 
   ngOnInit(): void {
     // testing options component (to remove)
-    this.APIService.getCategories(2, 1).subscribe((categories) => {
+    /**this.APIService.getCategories(2, 1).subscribe((categories) => {
       console.log(categories);
       this.messageForOptions = 'Please, select your choice';
       this.options = categories;
-    });
+    });**/
+
     //fake selection (to do by a combo)
     const categories = this.APIService.getCategories(1).subscribe(
       (category) => {

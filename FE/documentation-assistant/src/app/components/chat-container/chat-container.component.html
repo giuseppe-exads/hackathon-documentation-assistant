@@ -4,6 +4,8 @@
       *ngIf="chat.length"
       [chat]="chat"
       [isGenerating]="isGeneratingResponse"
+      [options]="options"
+      [messageForOptions]="messageForOptions"
     ></app-chat-box>
     <app-category-shortcuts
       *ngIf="!chat.length"
