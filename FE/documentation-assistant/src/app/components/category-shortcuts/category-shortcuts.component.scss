@@ -1,0 +1,23 @@
+.outer-container {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    .container {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        
+        .card {
+            box-shadow: none;
+            background-color: rgb(187, 187, 187);
+            border: 1px solid rgb(130, 130, 130);
+            color: white;
+            width: 100px;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+}

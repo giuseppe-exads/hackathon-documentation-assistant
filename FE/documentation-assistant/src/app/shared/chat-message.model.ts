@@ -1,4 +1,4 @@
 export interface ChatMessage {
-  sender: 'User' | 'System';
+  sender: 'User' | 'System' | 'Automatic';
   text: string;
 }

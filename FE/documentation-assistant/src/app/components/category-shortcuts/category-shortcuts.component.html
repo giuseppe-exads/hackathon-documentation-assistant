@@ -1,0 +1,12 @@
+<div class="outer-container">
+  <p>Either choose a category or start typing something.</p>
+  <div class="container">
+    <mat-card
+      class="card"
+      *ngFor="let category of categories"
+      (click)="onCategorySelect(category)"
+    >
+      {{ category.name }}
+    </mat-card>
+  </div>
+</div>

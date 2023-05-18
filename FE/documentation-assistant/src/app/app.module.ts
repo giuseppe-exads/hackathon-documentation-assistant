@@ -14,10 +14,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { OptionsBoxComponent } from './components/options-box/options-box.component';
+import { DocumentationMessageComponent } from './components/documentation-message/documentation-message.component';
+import { CategoryShortcutsComponent } from './components/category-shortcuts/category-shortcuts.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { OptionsBoxComponent } from './components/options-box/options-box.compon
     ChatBoxComponent,
     TypewriterDirective,
     OptionsBoxComponent,
+    DocumentationMessageComponent,
+    CategoryShortcutsComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,7 @@ import { OptionsBoxComponent } from './components/options-box/options-box.compon
     MatIconModule,
     MatButtonModule,
     HttpClientModule,
-    MatListModule
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
