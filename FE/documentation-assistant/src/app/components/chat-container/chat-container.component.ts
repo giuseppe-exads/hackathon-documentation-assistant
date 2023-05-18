@@ -18,7 +18,12 @@ export class ChatContainerComponent implements OnInit {
   selectedCategory: Category;
 
   message: string = '';
-  chat: ChatMessage[] = [];
+  chat: ChatMessage[] = [
+    {
+      sender: 'System',
+      text: "Hello and welcome to our docSquad customer care service. How can I help you? Whether you have questions, need assistance with a product or service, or have any concerns or feedback, I'm here to assist you",
+    },
+  ];
   isGeneratingResponse: boolean = false;
 
   constructor(
