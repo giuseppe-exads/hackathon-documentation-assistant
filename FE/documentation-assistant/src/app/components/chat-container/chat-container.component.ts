@@ -37,7 +37,7 @@ export class ChatContainerComponent implements OnInit {
 
   ngOnInit(): void {
     // testing options component (to remove)
-   /* this.APIService.getCategories(2, 1).subscribe((categories) => {
+    /* this.APIService.getCategories(2, 1).subscribe((categories) => {
       console.log(categories);
       this.messageForOptions = 'Please, select your choice';
       this.options = categories;
@@ -108,7 +108,10 @@ export class ChatContainerComponent implements OnInit {
         },
         (error) => {
           this.isGeneratingResponse = false;
-          this.chat.push( { sender: 'System', text: 'I\'m very sorry. But I can\'t support you. Please call Benja!' } );
+          this.chat.push({
+            sender: 'System',
+            text: "I'm very sorry. But I can't support you. Please call Benja!",
+          });
         },
         () => {}
       );
@@ -153,13 +156,17 @@ export class ChatContainerComponent implements OnInit {
       },
       (error) => {
         this.isGeneratingResponse = false;
-        this.chat.push( { sender: 'System', text: 'I\'m very sorry. But I can\'t support you. Please call Benja!' } );
+        this.chat.push({
+          sender: 'System',
+          text: "I'm very sorry. But I can't support you. Please call Benja!",
+        });
       },
       () => {
         // send the categories to the options component
         console.log('Send to UI:', this.options);
         this.isGeneratingResponse = false;
-        this.messageForOptions = 'Dear customer, based on you request, please select one of the next options';
+        this.messageForOptions =
+          'Dear customer, based on you request, please select one of the next options';
       }
     );
   }
@@ -167,5 +174,9 @@ export class ChatContainerComponent implements OnInit {
   onSelectedChoice(category: Category) {
     this.selectedCategory = category;
     console.log(category);
+  }
+
+  onClearChat() {
+    this.chat = [];
   }
 }
