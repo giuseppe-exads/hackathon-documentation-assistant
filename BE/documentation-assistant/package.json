@@ -1,0 +1,29 @@
+{
+  "name": "categories",
+  "version": "1.0.0",
+  "description": "Categories - A Mongo-Express-NodeJS REST API",
+  "keywords": [
+    "REST",
+    "API",
+    "MongoDB",
+    "Express",
+    "NodeJS",
+    "Tutorial",
+    "Categories",
+    "CRUD"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Leonardo Farreras",
+    "email": "lfarreras@toroadvertising.com"
+  },
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.12.4",
+    "express": "~4.12.4",
+    "mongodb": "^2.2.30",
+    "mongoose": "^6.10.0"
+  }
+}
