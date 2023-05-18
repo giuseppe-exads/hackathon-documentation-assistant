@@ -14,7 +14,7 @@ import { ChatMessage } from 'src/app/shared/chat-message.model';
 export class ChatContainerComponent implements OnInit {
   // to map with that select by user
   @Input()
-  selectedCategory: Category;
+  selectedCategory?: Category;
 
   message: string = '';
   chat: ChatMessage[] = [
@@ -178,5 +178,7 @@ export class ChatContainerComponent implements OnInit {
 
   onClearChat() {
     this.chat = [];
+    this.options = [];
+    this.selectedCategory = undefined;
   }
 }
