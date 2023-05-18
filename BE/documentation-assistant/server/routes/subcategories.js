@@ -3,14 +3,16 @@ var router = express.Router();
 var config = require("../config.js");
 var mongodb = require("mongoose");
 var mongoClient = mongodb.MongoClient;
+
+var subcategories;
 mongodb.set("strictQuery", false);
 mongodb.connect(config.mongodbUrl, function (err, db) {
   if (err) throw err;
-  categories = db.collection("categories");
+  subcategories = db.collection("subcategories");
 });
 
 router.get("/", function (req, res, next) {
-  categories.find().toArray(function (err, docs) {
+  subcategories.find().toArray(function (err, docs) {
     if (err) throw err;
     res.json(docs);
   });
@@ -18,7 +20,7 @@ router.get("/", function (req, res, next) {
 
 router.get("/:id", function (req, res, next) {
   var categoryId = req.params.id;
-  categories.findOne(
+  subcategories.findOne(
     { _id: new mongodb.ObjectID(categoryId) },
     function (err, docs) {
       if (err) throw err;
@@ -28,7 +30,7 @@ router.get("/:id", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  categories.save(req.body, function (err, result) {
+  subcategories.save(req.body, function (err, result) {
     if (err) throw err;
     res.json(req.body);
   });
@@ -37,7 +39,7 @@ router.post("/", function (req, res, next) {
 router.put("/", function (req, res, next) {
   var _id = new mongodb.ObjectID(req.body._id);
   delete req.body._id;
-  categories.updateOne(
+  subcategories.updateOne(
     { _id: _id },
     { $set: req.body },
     function (err, result) {
@@ -48,7 +50,7 @@ router.put("/", function (req, res, next) {
 });
 
 router.delete("/", function (req, res, next) {
-  categories.deleteOne(
+  subcategories.deleteOne(
     { _id: new mongodb.ObjectID(req.body._id) },
     function (err, result) {
       if (err) throw err;
