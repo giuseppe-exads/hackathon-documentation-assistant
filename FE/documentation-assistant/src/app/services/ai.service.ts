@@ -14,7 +14,7 @@ export class AIService {
         private apiService: MockAPIService,
         private utilityService: UtilityService) { }
 
-    makeStep(messageFromUser: string): Observable<Category[]> {
+    makeStepByMessage(messageFromUser: string): Observable<Category[]> {
         return this.apiService.getCategories(1)
             .pipe(
                 switchMap((categories) => {
@@ -25,15 +25,43 @@ export class AIService {
                     return this.openAIService.getDataFromOpenAI(messageToSend)
                         .pipe(
                             switchMap((messageFromChatGPT) => {
-                                const category = categories.find(cat => messageFromChatGPT.includes(cat.name));
+                                const response = messageFromChatGPT.trim();
+                                const category = categories.find(cat => response.includes(cat.name));
 
                                 if (!this.utilityService.isNullOrUndefined(category)) {
                                     return this.apiService.getCategories(2, category?.id)
                                 } else {
-                                    return EMPTY;
+                                    throw new Error('No Category Detected');
                                 }
                             }
                             ))
+                })
+            );
+    }
+
+    makeStepByCategory(selectedCategory: Category, messageFromUser: string): Observable<Category> {
+        return this.apiService.getCategories(2, selectedCategory.id)
+            .pipe(
+                switchMap((subCategories) => {
+                    const subCats = subCategories.map((category) => `"${category.name}"`);
+                    const messageToSend =
+                        `ChatGPT, could you return one or more labels, among ${subCats.join(',')}, that you can assign to the next sentence, "${messageFromUser}"?
+                        if you don't find any label return "No detected"`;
+                    return this.openAIService.getDataFromOpenAI(messageToSend)
+                        .pipe(
+                            switchMap((messageFromChatGPT) => {
+                                const subCats = subCategories.map((category) => `${category.name}`);
+                                const response = messageFromChatGPT.trim();
+                                const subCategoriesByMessage = subCats.filter(categoryName => response.includes(categoryName));
+                                if (!this.utilityService.isNullOrUndefined(subCategoriesByMessage) && subCategoriesByMessage.length > 0) {
+                                    const categoriesToReturn =
+                                        subCategoriesByMessage.map((subCategory) => <Category>subCategories.find((subC) => subC.name === subCategory));
+                                    return categoriesToReturn;
+                                } else {
+                                    throw new Error('No Category Detected');
+                                }
+                            }
+                        ))
                 })
             );
     }
