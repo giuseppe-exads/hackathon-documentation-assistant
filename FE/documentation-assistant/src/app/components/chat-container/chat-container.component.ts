@@ -55,7 +55,7 @@ export class ChatContainerComponent implements OnInit {
   triggerFunction(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       event.preventDefault();
-      !!this.message && this.onSend();
+      !!this.message && this.onSend1();
     }
   }
 
@@ -102,9 +102,9 @@ export class ChatContainerComponent implements OnInit {
           this.messageForOptions =
             'Dear customer, based on you request, please select one of the next options';
 
-          if (options.length > 0) {
+         /** if (options.length > 0) {
             this.onSelectedOption(options[0]);
-          }
+          }*/
         },
         (error) => {
           this.isGeneratingResponse = false;
