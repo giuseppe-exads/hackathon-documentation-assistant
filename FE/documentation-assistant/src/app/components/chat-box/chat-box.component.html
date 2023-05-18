@@ -17,4 +17,15 @@
       <span class="dot"></span>
     </div>
   </mat-card>
+  <app-options-box
+    *ngIf="options && options.length > 0"
+    [options]="options"
+    (onSelectedChoice)="onSelectedChoice($event)"
+    [message]="messageForOptions"
+  >
+  </app-options-box>
+  <app-documentation-message
+    *ngIf="selectedChoice"
+    [message]="selectedChoice"
+  ></app-documentation-message>
 </div>

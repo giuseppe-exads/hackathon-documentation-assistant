@@ -1,14 +1,16 @@
 <mat-card class="container">
   <div class="chat-box">
     <app-chat-box
+      *ngIf="chat.length"
       [chat]="chat"
       [isGenerating]="isGeneratingResponse"
     ></app-chat-box>
+    <app-category-shortcuts
+      *ngIf="!chat.length"
+      [categories]="levelOneCategories"
+      (onSelectedCategory)="onSelectedChoice($event)"
+    ></app-category-shortcuts>
   </div>
-  <app-options-box *ngIf="options && options.length > 0" [options]="options" 
-    (onSelectedChoice)="onSelectedChoice($event)"
-    [message]="messageForOptions">
-  </app-options-box>
 
   <mat-form-field class="message-input">
     <div class="custom-textarea">

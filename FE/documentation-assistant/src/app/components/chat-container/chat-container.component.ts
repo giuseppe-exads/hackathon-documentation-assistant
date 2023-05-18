@@ -18,13 +18,14 @@ export class ChatContainerComponent implements OnInit {
 
   message: string = '';
   chat: ChatMessage[] = [
-    {
+    /* {
       sender: 'System',
       text: "Hello and welcome to our docSquad customer care service. How can I help you? Whether you have questions, need assistance with a product or service, or have any concerns or feedback, I'm here to assist you",
-    },
+    }, */
   ];
   isGeneratingResponse: boolean = false;
   options: Category[];
+  levelOneCategories: Category[];
   messageForOptions = '';
 
   constructor(
@@ -36,16 +37,15 @@ export class ChatContainerComponent implements OnInit {
 
   ngOnInit(): void {
     // testing options component (to remove)
-    this.APIService.getCategories(2)
-      .subscribe(
-        categories => {
-          this.messageForOptions = 'Please, select your choice';
-          this.options = categories;
-        }
-      );
+    this.APIService.getCategories(2, 1).subscribe((categories) => {
+      console.log(categories);
+      this.messageForOptions = 'Please, select your choice';
+      this.options = categories;
+    });
     //fake selection (to do by a combo)
     const categories = this.APIService.getCategories(1).subscribe(
-      (category) => {
+      (categories) => {
+        this.levelOneCategories = categories;
         // payments
         //this.selectedCategory = category[1];
       }
@@ -94,12 +94,13 @@ export class ChatContainerComponent implements OnInit {
       this.onSelectMessageByCategory(prompt, <Category>category);
     } else {
       this.aiService.makeStepByMessage(prompt).subscribe(
-        options => {
+        (options) => {
           this.isGeneratingResponse = false;
           // send the categories to the chat and go listening (by using onSelectedOption)
           console.log(options);
           this.options = options;
-          this.messageForOptions = 'Dear customer, based on you request, please select one of the next options';
+          this.messageForOptions =
+            'Dear customer, based on you request, please select one of the next options';
 
           if (options.length > 0) {
             this.onSelectedOption(options[0]);

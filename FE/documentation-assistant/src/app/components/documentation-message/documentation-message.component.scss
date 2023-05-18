@@ -1,0 +1,25 @@
+.container {
+    box-shadow: none;
+
+    mat-card-title {
+        font-size: 14px;
+        color: rgba(0,0,0,.54)
+    }
+
+    mat-card-content {
+
+        font-size: 14px;
+
+        
+        div {
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #3f51b5;
+        }
+    }
+}
