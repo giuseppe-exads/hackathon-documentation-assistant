@@ -5,6 +5,11 @@
       [isGenerating]="isGeneratingResponse"
     ></app-chat-box>
   </div>
+  <app-options-box *ngIf="options && options.length > 0" [options]="options" 
+    (onSelectedChoice)="onSelectedChoice($event)"
+    [message]="messageForOptions">
+  </app-options-box>
+
   <mat-form-field class="message-input">
     <div class="custom-textarea">
       <textarea
