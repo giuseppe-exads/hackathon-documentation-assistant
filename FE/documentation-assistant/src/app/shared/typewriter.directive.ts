@@ -21,6 +21,6 @@ export class TypewriterDirective implements AfterViewInit {
       if (index === text.length) {
         clearInterval(typeEffect);
       }
-    }, 100);
+    }, 10);
   }
 }

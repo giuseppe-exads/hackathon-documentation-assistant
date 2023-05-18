@@ -16,9 +16,17 @@ export class ChatContainerComponent implements OnInit {
 
   constructor(
     private openAiService: OpenAiService,
-    private aiService: AIService) {}
+    private aiService: AIService
+  ) {}
 
   ngOnInit(): void {}
+
+  triggerFunction(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      !!this.message && this.onSend();
+    }
+  }
 
   onSend1() {
     this.chat.push({
@@ -51,16 +59,19 @@ export class ChatContainerComponent implements OnInit {
   }
 
   generateResponse1(prompt: string) {
-    this.aiService.makeStepNew1(prompt).subscribe((data) => {
-      this.isGeneratingResponse = false;
-      console.log('step1:', data);
-     /* this.chat.push({
+    this.aiService.makeStepNew1(prompt).subscribe(
+      (data) => {
+        this.isGeneratingResponse = false;
+        console.log('step1:', data);
+        /* this.chat.push({
         sender: 'System',
         text: data,
       });*/
-    }, undefined,
-    ()=> {
-      console.log('step1:', 'No detected');
-    });
+      },
+      undefined,
+      () => {
+        console.log('step1:', 'No detected');
+      }
+    );
   }
 }
