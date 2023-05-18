@@ -1,32 +1,80 @@
 var express = require("express");
 var router = express.Router();
 var config = require("../config.js");
-var mongodb = require("mongoose");
+var mongodb = require("mongodb");
 var mongoClient = mongodb.MongoClient;
-
+var categories;
 var subcategories;
-mongodb.set("strictQuery", false);
-mongodb.connect(config.mongodbUrl, function (err, db) {
+//mongodb.set("strictQuery", false);
+mongoClient.connect(config.mongodbUrl, function (err, db) {
+  if (err) throw err;
+  categories = db.collection("categories");
+});
+mongoClient.connect(config.mongodbUrl, function (err, db) {
   if (err) throw err;
   subcategories = db.collection("subcategories");
 });
 
 router.get("/", function (req, res, next) {
-  subcategories.find().toArray(function (err, docs) {
-    if (err) throw err;
-    res.json(docs);
-  });
+  subcategories
+    .aggregate([
+      {
+        $lookup: {
+          from: "categories",
+          localField: "relatedCategory",
+          foreignField: "_id",
+          as: "categories_join",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          link: 1,
+          levelOfCategory: 1,
+          textDoc: 1,
+          relatedCategory: 1,
+          categories_join: 1,
+        },
+      },
+    ])
+    .toArray(function (err, docs) {
+      if (err) throw err;
+      res.json(docs);
+    });
 });
 
 router.get("/:id", function (req, res, next) {
   var categoryId = req.params.id;
-  subcategories.findOne(
-    { _id: new mongodb.ObjectID(categoryId) },
-    function (err, docs) {
+  subcategories
+    .aggregate([
+      {
+        $match: {
+          _id: new mongodb.ObjectId(categoryId),
+        },
+      },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "relatedCategory",
+          foreignField: "_id",
+          as: "categories_join",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          link: 1,
+          levelOfCategory: 1,
+          textDoc: 1,
+          relatedCategory: 1,
+          categories_join: 1,
+        },
+      },
+    ])
+    .toArray(function (err, docs) {
       if (err) throw err;
       res.json(docs);
-    }
-  );
+    });
 });
 
 router.post("/", function (req, res, next) {
@@ -37,7 +85,7 @@ router.post("/", function (req, res, next) {
 });
 
 router.put("/", function (req, res, next) {
-  var _id = new mongodb.ObjectID(req.body._id);
+  var _id = new mongodb.ObjectId(req.body._id);
   delete req.body._id;
   subcategories.updateOne(
     { _id: _id },
@@ -51,7 +99,7 @@ router.put("/", function (req, res, next) {
 
 router.delete("/", function (req, res, next) {
   subcategories.deleteOne(
-    { _id: new mongodb.ObjectID(req.body._id) },
+    { _id: new mongodb.ObjectId(req.body._id) },
     function (err, result) {
       if (err) throw err;
       res.json(req.body);
