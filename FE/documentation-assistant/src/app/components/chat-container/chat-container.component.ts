@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Category } from 'src/app/models/category.model';
 import { AIService } from 'src/app/services/ai.service';
-import { APIService } from 'src/app/services/api.service';
 import { MockAPIService } from 'src/app/services/mock-api.service';
 import { OpenAiService } from 'src/app/services/open-ai.service';
 import { UtilityService } from 'src/app/services/utility.service';
@@ -25,6 +24,8 @@ export class ChatContainerComponent implements OnInit {
     },
   ];
   isGeneratingResponse: boolean = false;
+  options: Category[];
+  messageForOptions = '';
 
   constructor(
     private openAiService: OpenAiService,
@@ -34,11 +35,19 @@ export class ChatContainerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // testing options component (to remove)
+    this.APIService.getCategories(2)
+      .subscribe(
+        categories => {
+          this.messageForOptions = 'Please, select your choice';
+          this.options = categories;
+        }
+      );
     //fake selection (to do by a combo)
     const categories = this.APIService.getCategories(1).subscribe(
       (category) => {
         // payments
-        //this.selectedCategory = category[1];
+        this.selectedCategory = category[1];
       }
     );
   }
@@ -85,10 +94,13 @@ export class ChatContainerComponent implements OnInit {
       this.onSelectMessageByCategory(prompt, <Category>category);
     } else {
       this.aiService.makeStepByMessage(prompt).subscribe(
-        (options) => {
+        options => {
           this.isGeneratingResponse = false;
           // send the categories to the chat and go listening (by using onSelectedOption)
           console.log(options);
+          this.options = options;
+          this.messageForOptions = 'Dear customer, based on you request, please select one of the next options';
+
           if (options.length > 0) {
             this.onSelectedOption(options[0]);
           }
@@ -141,5 +153,9 @@ export class ChatContainerComponent implements OnInit {
         console.log('Send to UI:', categoriesToReturnToChat);
       }
     );
+  }
+
+  onSelectedChoice(category: Category) {
+    console.log(category);
   }
 }
