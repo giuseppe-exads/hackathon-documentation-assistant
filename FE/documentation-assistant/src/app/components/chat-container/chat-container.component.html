@@ -1,4 +1,12 @@
 <mat-card class="container">
+  <div>
+       <mat-form-field appearance="fill">
+        <mat-label>Select an main topic (not mandatory)</mat-label>
+        <mat-select *ngFor="let category of categories" [(value)]="selectedCategoryId" [(value)]="selectedCategoryId">
+          <mat-option [value]="category.id">{{ category.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
   <div class="chat-box">
     <app-chat-box
       [chat]="chat"

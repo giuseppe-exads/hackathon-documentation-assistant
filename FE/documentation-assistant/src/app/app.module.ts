@@ -18,6 +18,8 @@ import {MatListModule} from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { OptionsBoxComponent } from './components/options-box/options-box.component';
+import { MatSelectModule } from '@angular/material/select';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { OptionsBoxComponent } from './components/options-box/options-box.compon
     MatIconModule,
     MatButtonModule,
     HttpClientModule,
-    MatListModule
+    MatListModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],

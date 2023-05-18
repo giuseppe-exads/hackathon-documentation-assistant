@@ -14,7 +14,7 @@ import { ChatMessage } from 'src/app/shared/chat-message.model';
 export class ChatContainerComponent implements OnInit {
   // to map with that select by user
   @Input()
-  selectedCategory: Category;
+  selectedCategoryId: number;
 
   message: string = '';
   chat: ChatMessage[] = [
@@ -26,6 +26,7 @@ export class ChatContainerComponent implements OnInit {
   isGeneratingResponse: boolean = false;
   options: Category[];
   messageForOptions = '';
+  categories: Category[];
 
   constructor(
     private openAiService: OpenAiService,
@@ -36,6 +37,16 @@ export class ChatContainerComponent implements OnInit {
 
   ngOnInit(): void {
     // testing options component (to remove)
+    this.APIService.getCategories(1)
+      .subscribe(
+        categories => {
+          this.categories = categories.map(category => category);
+          this.categories.push({
+            id: -1,
+            name: 'None'
+          })
+        }
+      )
     this.APIService.getCategories(2)
       .subscribe(
         categories => {
@@ -64,7 +75,17 @@ export class ChatContainerComponent implements OnInit {
       sender: 'User',
       text: this.message,
     });
-    this.generateResponse1(this.message, this.selectedCategory);
+
+    if(this.selectedCategoryId !== -1)  {
+      this.APIService.getCategory(this.selectedCategoryId)
+        .subscribe(
+          category => {
+            this.generateResponse1(this.message, category);
+          }
+        )
+    } else {
+      this.generateResponse1(this.message, undefined);
+    }
     this.message = '';
     this.isGeneratingResponse = true;
   }
