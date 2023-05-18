@@ -50,7 +50,7 @@ export class ChatContainerComponent implements OnInit {
   }
 
   generateResponse1(prompt: string) {
-    this.aiService.makeStep1_(prompt).subscribe((data) => {
+    this.aiService.makeStep1(prompt).subscribe((data) => {
       this.isGeneratingResponse = false;
       console.log('step1:', data);
       this.chat.push({
