@@ -1,0 +1,14 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+
+    mat-card {
+        width: fit-content;
+        
+        &.align-right {
+            align-self: flex-end;
+            background-color: #06b8fe;
+        }           
+        
+    }
+}

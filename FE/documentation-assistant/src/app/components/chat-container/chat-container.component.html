@@ -1,1 +1,20 @@
-<div>container</div>
+<mat-card class="container">
+  <div class="chat-box">
+    <app-chat-box [chat]="chat"></app-chat-box>
+  </div>
+  <mat-form-field>
+    <textarea
+      placeholder="Your message here."
+      matInput
+      cdkTextareaAutosize
+      [(ngModel)]="message"
+    ></textarea>
+    <button
+      mat-icon-button
+      (click)="onSend()"
+      [disabled]="isGeneratingResponse"
+    >
+      <mat-icon>send</mat-icon>
+    </button>
+  </mat-form-field>
+</mat-card>
