@@ -4,21 +4,18 @@ import { Category } from 'src/app/models/category.model';
 @Component({
   selector: 'app-options-box',
   templateUrl: './options-box.component.html',
-  styleUrls: ['./options-box.component.scss']
+  styleUrls: ['./options-box.component.scss'],
 })
 export class OptionsBoxComponent implements OnInit {
-
   @Input() options: Category[];
-  @Input() message: string;
+  @Input() message: any;
   @Output() onSelectedChoice = new EventEmitter<Category>();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSelectedOption(category: Category) {
     this.onSelectedChoice.emit(category);
   }
-
 }

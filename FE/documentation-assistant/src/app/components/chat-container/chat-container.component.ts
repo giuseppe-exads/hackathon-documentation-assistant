@@ -90,6 +90,10 @@ export class ChatContainerComponent implements OnInit {
   }
 
   generateResponse1(prompt: string, category?: Category) {
+    this.isGeneratingResponse = true;
+    console.log(this.chat);
+    this.chat.push({ sender: 'Automatic', text: 'typing' });
+    console.log('chat before generating', this.chat);
     if (!this.utilityService.isNullOrUndefined(category)) {
       this.onSelectMessageByCategory(prompt, <Category>category);
     } else {
@@ -101,14 +105,19 @@ export class ChatContainerComponent implements OnInit {
           this.options = options;
           this.messageForOptions =
             'Dear customer, based on you request, please select one of the next options';
-
-         /** if (options.length > 0) {
-            this.onSelectedOption(options[0]);
-          }*/
+          this.chat = this.chat.slice(0, -1);
+          this.chat.push({
+            sender: 'Automatic',
+            text: 'Options',
+            options: this.options,
+            messageForOptions: this.messageForOptions,
+          });
         },
         (error) => {
           this.isGeneratingResponse = false;
           this.options = [];
+          console.log('the chat', this.chat);
+          this.chat = this.chat.slice(0, -1);
           this.chat.push({
             sender: 'System',
             text: "I'm very sorry. But I can't support you. Please call Benja!",
@@ -124,7 +133,7 @@ export class ChatContainerComponent implements OnInit {
    * @param category
    * @param language
    */
-  onTranslateMessage(event: { category: Category, language: string }) {
+  onTranslateMessage(event: { category: Category; language: string }) {
     this.aiService
       .translate(<string>event.category.textDoc, event.language)
       .subscribe((message) => {
@@ -150,6 +159,7 @@ export class ChatContainerComponent implements OnInit {
       (error) => {
         this.isGeneratingResponse = false;
         this.options = [];
+        this.chat = this.chat.slice(0, -1);
         this.chat.push({
           sender: 'System',
           text: "I'm very sorry. But I can't support you. Please call Benja!",
@@ -168,6 +178,14 @@ export class ChatContainerComponent implements OnInit {
   onSelectedChoice(category: Category) {
     this.selectedCategory = category;
     console.log(category);
+    if (!category.link) {
+      console.log('level 1');
+      this.generateResponse1(category.name);
+    }
+  }
+
+  pushDocumentationToChat() {
+    this.chat.push({ sender: 'Automatic', text: 'documentation' });
   }
 
   onClearChat() {

@@ -1,31 +1,46 @@
 <div class="chat-container" #scrollContainer>
-  <mat-card
+  <div
     *ngFor="let message of chat"
+    class="message-container"
     [ngClass]="{ 'align-right': message.sender === 'User' }"
   >
-    <p *ngIf="message.sender === 'System'" appTypewriter>
-      {{ message.text }}
-    </p>
-    <p *ngIf="message.sender === 'User'">
-      {{ message.text }}
-    </p>
-  </mat-card>
-  <mat-card class="typing-card" *ngIf="isGenerating">
-    <div class="typing-dots">
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-    </div>
-  </mat-card>
-  <app-options-box
-    *ngIf="options && options.length > 0"
-    [options]="options"
-    (onSelectedChoice)="onSelectedChoice($event)"
-    [message]="messageForOptions"
-  >
-  </app-options-box>
-  <app-documentation-message
-    *ngIf="selectedChoice"
-    [message]="selectedChoice"
-  ></app-documentation-message>
+    <mat-card *ngIf="message.sender === 'System'">
+      <p appTypewriter>
+        {{ message.text }}
+      </p>
+    </mat-card>
+    <mat-card
+      *ngIf="message.sender === 'User'"
+      [ngClass]="{ 'align-right': message.sender === 'User' }"
+    >
+      <p>
+        {{ message.text }}
+      </p>
+    </mat-card>
+    <app-options-box
+      *ngIf="message.sender === 'Automatic' && message.text === 'Options'"
+      [options]="message.options"
+      (onSelectedChoice)="onSelectedChoice($event)"
+      [message]="message.messageForOptions"
+    >
+    </app-options-box>
+    <app-documentation-message
+      *ngIf="
+        selectedChoice &&
+        message.sender === 'Automatic' &&
+        message.text === 'documentation'
+      "
+      [message]="selectedChoice"
+    ></app-documentation-message>
+    <mat-card
+      class="typing-card"
+      *ngIf="message.sender === 'Automatic' && message.text === 'typing'"
+    >
+      <div class="typing-dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </mat-card>
+  </div>
 </div>

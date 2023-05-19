@@ -20,12 +20,16 @@ import { MockAPIService } from 'src/app/services/mock-api.service';
 })
 export class ChatBoxComponent implements AfterViewInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
-  @Output() requestedTranslation = new EventEmitter<{ category: Category, language: string }>();
+  @Output() requestedTranslation = new EventEmitter<{
+    category: Category;
+    language: string;
+  }>();
+  @Output() choiceSelected = new EventEmitter<Category>();
   @Input() chat: ChatMessage[] = [];
   @Input() isGenerating: boolean = false;
   @Input() options: Category[];
   @Input() messageForOptions = '';
-  
+
   selectedChoice: Category;
 
   constructor(
@@ -72,12 +76,13 @@ export class ChatBoxComponent implements AfterViewInit {
   onSelectedChoice(category: Category) {
     console.log(category);
     this.selectedChoice = category;
+    this.choiceSelected.emit(this.selectedChoice);
   }
 
   onRequestedTranslation(language: string) {
     this.requestedTranslation.emit({
       category: this.selectedChoice,
-      language: language
+      language: language,
     });
   }
 }

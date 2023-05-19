@@ -4,10 +4,21 @@
     overflow-y: scroll;
     max-height: 500px;
 
+    .message-container {
+      width: fit-content;
+      max-width: 80%;
+      margin: 10px 0;
+      
+      &.align-right { 
+        align-self: flex-end;
+      }
+    }
+
     mat-card {
-        width: fit-content;
-        max-width: 50%;
-        margin: 10px 0;
+      width: fit-content;
+      max-width: 80%;
+      margin: 10px 0;
+        
 
         p {
             word-wrap: break-word;

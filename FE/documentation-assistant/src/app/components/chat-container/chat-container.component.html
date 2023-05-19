@@ -7,6 +7,7 @@
       [options]="options"
       [messageForOptions]="messageForOptions"
       (requestedTranslation)="onTranslateMessage($event)"
+      (choiceSelected)="pushDocumentationToChat()"
     ></app-chat-box>
     <app-category-shortcuts
       *ngIf="!chat.length"
