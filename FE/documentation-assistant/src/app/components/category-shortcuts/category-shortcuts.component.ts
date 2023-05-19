@@ -8,6 +8,7 @@ import { Category } from '../../models/category.model';
 })
 export class CategoryShortcutsComponent implements OnInit {
   @Input() categories: Category[];
+  highlightedCategory: any = { name: '' };
   @Output() onSelectedCategory = new EventEmitter<Category>();
 
   constructor() {}
@@ -16,5 +17,6 @@ export class CategoryShortcutsComponent implements OnInit {
 
   onCategorySelect(category: Category) {
     this.onSelectedCategory.next(category);
+    this.highlightedCategory = category;
   }
 }

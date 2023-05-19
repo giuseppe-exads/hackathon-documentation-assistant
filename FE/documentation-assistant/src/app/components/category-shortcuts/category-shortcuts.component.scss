@@ -18,6 +18,17 @@
             width: 100px;
             text-align: center;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &.highlight {
+                background-color: #2799c6
+            }
+
+            &:hover {
+                background-color: #2799c6
+            }
         }
     }
 }

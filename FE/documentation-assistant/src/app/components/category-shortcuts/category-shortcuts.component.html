@@ -5,6 +5,7 @@
       class="card"
       *ngFor="let category of categories"
       (click)="onCategorySelect(category)"
+      [ngClass]="{ highlight: highlightedCategory.name === category.name }"
     >
       {{ category.name }}
     </mat-card>
