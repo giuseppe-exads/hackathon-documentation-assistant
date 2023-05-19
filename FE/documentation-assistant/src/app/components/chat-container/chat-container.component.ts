@@ -120,24 +120,16 @@ export class ChatContainerComponent implements OnInit {
   }
 
   /**
-   * The user has selected one option (category)
-   * @param category
-   */
-  onSelectedOption(category: Category) {
-    // send the category to the category response
-    this.onTranslateMessage(category, 'Italian');
-  }
-
-  /**
    * The user request to translate a text message
    * @param category
    * @param language
    */
-  onTranslateMessage(category: Category, language: string) {
+  onTranslateMessage(event: { category: Category, language: string }) {
     this.aiService
-      .translate(<string>category.textDoc, language)
+      .translate(<string>event.category.textDoc, event.language)
       .subscribe((message) => {
-        console.log('Doc translated -> ', message);
+        this.isGeneratingResponse = false;
+        event.category.textDoc = message.toString();
       });
   }
 

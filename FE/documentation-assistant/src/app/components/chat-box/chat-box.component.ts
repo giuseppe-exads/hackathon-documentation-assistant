@@ -2,7 +2,9 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
+  Output,
   Renderer2,
   SimpleChanges,
   ViewChild,
@@ -18,6 +20,7 @@ import { MockAPIService } from 'src/app/services/mock-api.service';
 })
 export class ChatBoxComponent implements AfterViewInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+  @Output() requestedTranslation = new EventEmitter<{ category: Category, language: string }>();
   @Input() chat: ChatMessage[] = [];
   @Input() isGenerating: boolean = false;
   @Input() options: Category[];
@@ -69,5 +72,12 @@ export class ChatBoxComponent implements AfterViewInit {
   onSelectedChoice(category: Category) {
     console.log(category);
     this.selectedChoice = category;
+  }
+
+  onRequestedTranslation(language: string) {
+    this.requestedTranslation.emit({
+      category: this.selectedChoice,
+      language: language
+    });
   }
 }
