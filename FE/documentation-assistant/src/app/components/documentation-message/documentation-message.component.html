@@ -1,12 +1,26 @@
-<mat-card class="container">
+<mat-card class="container" *ngIf="!isGenerating">
   <mat-card-title>{{ message.name }}</mat-card-title>
   <mat-card-content>
     <div>
       <p>{{ message.textDoc }}</p>
       <br />
-      <a href="{{ message.link }}" target="_blank"
-        >Click here to be redirected to the section in the documentation.</a
-      >
+      <a href="{{ message.link }}" target="_blank">Click here to be redirected to the section in the documentation.</a>
+      <br>
+      <br>
+      <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+        <mat-chip (click)="onTranslate(language)" class="example-box" cdkDrag *ngFor="let language of languages">
+          {{language}}
+        </mat-chip>
+      </mat-chip-list>
+      <br>
+      <br>
     </div>
   </mat-card-content>
+</mat-card>
+<mat-card class="typing-card" *ngIf="isGenerating">
+  <div class="typing-dots">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
 </mat-card>

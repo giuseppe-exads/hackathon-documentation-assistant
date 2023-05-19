@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { OptionsBoxComponent } from './components/options-box/options-box.component';
 import { DocumentationMessageComponent } from './components/documentation-message/documentation-message.component';
 import { CategoryShortcutsComponent } from './components/category-shortcuts/category-shortcuts.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CategoryShortcutsComponent } from './components/category-shortcuts/cate
     MatButtonModule,
     HttpClientModule,
     MatListModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
