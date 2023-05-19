@@ -102,7 +102,7 @@ export class ChatContainerComponent implements OnInit {
           this.messageForOptions =
             'Dear customer, based on you request, please select one of the next options';
 
-         /** if (options.length > 0) {
+          /** if (options.length > 0) {
             this.onSelectedOption(options[0]);
           }*/
         },
@@ -111,7 +111,7 @@ export class ChatContainerComponent implements OnInit {
           this.options = [];
           this.chat.push({
             sender: 'System',
-            text: "I'm very sorry. But I can't support you. Please call Benja!",
+            text: 'I am sorry , but I cannot understand your question. I would recommend getting in touch with the Exads team.',
           });
         },
         () => {}
@@ -124,7 +124,7 @@ export class ChatContainerComponent implements OnInit {
    * @param category
    * @param language
    */
-  onTranslateMessage(event: { category: Category, language: string }) {
+  onTranslateMessage(event: { category: Category; language: string }) {
     this.aiService
       .translate(<string>event.category.textDoc, event.language)
       .subscribe((message) => {
@@ -152,7 +152,7 @@ export class ChatContainerComponent implements OnInit {
         this.options = [];
         this.chat.push({
           sender: 'System',
-          text: "I'm very sorry. But I can't support you. Please call Benja!",
+          text: 'I am sorry , but I cannot understand your question. I would recommend getting in touch with the Exads team.',
         });
       },
       () => {
