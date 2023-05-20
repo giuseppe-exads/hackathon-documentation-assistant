@@ -37,25 +37,11 @@ export class ChatBoxComponent
   selectedChoice: Category;
 
   constructor(
-    private renderer: Renderer2,
-    private APIService: MockAPIService
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
-    // testing options component (to remove)
-    /**this.APIService.getCategories(2, 1).subscribe((categories) => {
-      console.log(categories);
-      this.messageForOptions = 'Please, select your choice';
-      this.options = categories;
-    });**/
 
-    //fake selection (to do by a combo)
-    const categories = this.APIService.getCategories(1).subscribe(
-      (category) => {
-        // payments
-        //this.selectedCategory = category[1];
-      }
-    );
   }
 
   ngAfterViewInit(): void {
