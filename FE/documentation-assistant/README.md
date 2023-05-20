@@ -2,6 +2,21 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.4.
 
+## Configure
+
+Add environments/environment.ts under FE/src
+
+```
+export const environment = {
+  production: false,
+  open_AI_API_KEY: 'insert here our API KEY',
+  endpoint_URL: 'http://localhost:5000/api/'
+};
+```
+
+Add our OPEN_AI API KEY to `open_AI_API_KEY` property. 
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
