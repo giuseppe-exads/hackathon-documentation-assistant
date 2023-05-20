@@ -14,7 +14,7 @@ export const environment = {
 };
 ```
 
-Add our OPEN_AI API KEY to `open_AI_API_KEY` property. 
+Add your OPEN_AI API KEY to `open_AI_API_KEY` property. 
 
 
 ## Development server
