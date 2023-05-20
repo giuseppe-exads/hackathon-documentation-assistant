@@ -9,7 +9,7 @@ Add environments/environment.ts under FE/src
 ```
 export const environment = {
   production: false,
-  open_AI_API_KEY: 'insert here our API KEY',
+  open_AI_API_KEY: 'insert here your API KEY',
   endpoint_URL: 'http://localhost:5000/api/'
 };
 ```
