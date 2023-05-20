@@ -4,6 +4,7 @@ import { EMPTY, Observable, concat, map, of, switchMap } from 'rxjs';
 import { OpenAiService } from './open-ai.service';
 import { MockAPIService } from './mock-api.service';
 import { UtilityService } from './utility.service';
+import { APIService } from './api.service';
 
 @Injectable({
     providedIn: 'root',
@@ -11,11 +12,11 @@ import { UtilityService } from './utility.service';
 export class AIService {
     constructor(
         private openAIService: OpenAiService,
-        private apiService: MockAPIService,
+        private apiService: APIService,
         private utilityService: UtilityService) { }
 
     makeStepByMessage(messageFromUser: string): Observable<Category[]> {
-        return this.apiService.getCategories(1)
+        return this.apiService.getCategoriesFromUI(1)
             .pipe(
                 switchMap((categories) => {
                     const cats = categories.map((category) => `"${category.name}"`);
@@ -29,7 +30,7 @@ export class AIService {
                                 const category = categories.find(cat => response.includes(cat.name));
 
                                 if (!this.utilityService.isNullOrUndefined(category)) {
-                                    return this.apiService.getCategories(2, category?.id)
+                                    return this.apiService.getCategoriesFromUI(2, category?._id)
                                 } else {
                                     throw new Error('No Category Detected');
                                 }
@@ -40,7 +41,7 @@ export class AIService {
     }
 
     makeStepByCategory(selectedCategory: Category, messageFromUser: string): Observable<Category> {
-        return this.apiService.getCategories(2, selectedCategory.id)
+        return this.apiService.getCategoriesFromUI(2, selectedCategory._id)
             .pipe(
                 switchMap((subCategories) => {
                     const subCats = subCategories.map((category) => `"${category.name}"`);

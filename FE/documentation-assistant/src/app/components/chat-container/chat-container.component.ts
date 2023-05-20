@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Category } from 'src/app/models/category.model';
 import { AIService } from 'src/app/services/ai.service';
+import { APIService } from 'src/app/services/api.service';
 import { MockAPIService } from 'src/app/services/mock-api.service';
 import { OpenAiService } from 'src/app/services/open-ai.service';
 import { UtilityService } from 'src/app/services/utility.service';
@@ -32,7 +33,7 @@ export class ChatContainerComponent implements OnInit {
     private openAiService: OpenAiService,
     private aiService: AIService,
     private utilityService: UtilityService,
-    private APIService: MockAPIService
+    private APIService: APIService
   ) {}
 
   ngOnInit(): void {

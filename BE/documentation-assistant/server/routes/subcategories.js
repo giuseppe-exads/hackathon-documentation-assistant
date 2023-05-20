@@ -49,13 +49,13 @@ router.get("/:id", function (req, res, next) {
     .aggregate([
       {
         $match: {
-          _id: new mongodb.ObjectId(categoryId),
+          relatedCategory: new mongodb.ObjectId(categoryId),
         },
       },
       {
         $lookup: {
           from: "categories",
-          localField: "relatedCategory",
+          localField: "_id",
           foreignField: "_id",
           as: "categories_join",
         },
@@ -66,8 +66,7 @@ router.get("/:id", function (req, res, next) {
           link: 1,
           levelOfCategory: 1,
           textDoc: 1,
-          relatedCategory: 1,
-          categories_join: 1,
+          relatedCategory: 1
         },
       },
     ])
