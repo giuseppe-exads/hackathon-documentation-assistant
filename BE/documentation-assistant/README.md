@@ -4,25 +4,15 @@
 
 We are assuming you are already familiar with MongoDB, NodeJS and that these are already installed on your system.
 
+```
+Mongo Version: 5.0.
+```
+
 ## MongoDB Setup
 
-Open a terminal window and start the mongo CLI to create the database and add some data.
+Start Mongo DB and create two collections: "categories" and "subcategories".
 
-```
-mongo
-```
-
-In the CLI type the following to create the database categories and add a couple of documents to collection categories:
-
-```
-use categories
-db.categories.insert({
-  "name": "Category",
-  "levelOfCategory": 1,
-  "link": "https://www.google.com",
-  "textDoc": "Comment"
-})
-```
+Add the documents related to each collection, that you can find into ```BE/dump-mongo```.
 
 ## Run
 
@@ -30,7 +20,7 @@ db.categories.insert({
 npm start
 ```
 
-Open your browser to http://localhost:3000/api/categories
+Open your browser to http://localhost:5000/api/categories (the port number can vary). If the command return documents the test is ok.
 
 ## License
 
