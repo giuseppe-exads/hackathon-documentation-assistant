@@ -11,9 +11,10 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ChatMessage } from 'src/app/shared/chat-message.model';
+import { ChatMessage, ChatText, DocumentMessage, OptionsMessage } from 'src/app/shared/chat-message.model';
 import { Category } from '../../models/category.model';
 import { MockAPIService } from 'src/app/services/mock-api.service';
+import { type } from 'os';
 
 @Component({
   selector: 'app-chat-box',
@@ -28,13 +29,13 @@ export class ChatBoxComponent
     category: Category;
     language: string;
   }>();
+  @Output()onSelectedChoiceDone = new EventEmitter< {index: number, category: Category} >();
   @Input() chat: ChatMessage[] = [];
   @Input() isGenerating: boolean = false;
-  @Input() options: Category[];
   @Input() messageForOptions = '';
-  private isScrollToBottomNeeded = false;
-
   selectedChoice: Category;
+
+  private isScrollToBottomNeeded = false;
 
   constructor(
     private renderer: Renderer2
@@ -45,32 +46,32 @@ export class ChatBoxComponent
   }
 
   ngAfterViewInit(): void {
-    this.scrollToBottom();
-    this.isScrollToBottomNeeded = true;
+   // this.scrollToBottom();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.scrollToBottom();
+    this.isScrollToBottomNeeded = true;
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    if(this.isScrollToBottomNeeded) {
+      setTimeout(() => {
+        this.isScrollToBottomNeeded = false;
+        this.scrollToBottom();
+      }, 500);
+    }
   }
 
   private scrollToBottom(): void {
     if (this.scrollContainer) {
-      const containerElement = this.scrollContainer.nativeElement;
-      const maxScrollTop =
-        containerElement.scrollHeight - containerElement.clientHeight;
-      setTimeout(() => {
-        this.renderer.setProperty(containerElement, 'scrollTop', maxScrollTop);
-      }, 0);
+      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
     }
   }
 
-  onSelectedChoice(category: Category) {
-    console.log(category);
+  onSelectedChoice(i: number, category: Category) {
+    
     this.selectedChoice = category;
+    this.onSelectedChoiceDone.emit({index: i+1, category});
   }
 
   onRequestedTranslation(language: string) {
@@ -78,5 +79,25 @@ export class ChatBoxComponent
       category: this.selectedChoice,
       language: language,
     });
+  }
+
+  getChatText(message: ChatMessage): ChatText | null {
+    return message.type === 'ChatText' ? <ChatText>message : null;
+  }
+
+  isDocumentMessage(message: ChatMessage): boolean {
+    return message.type === 'DocumentMessage';
+  }
+
+  getDocumentMessage(message: ChatMessage): DocumentMessage | null {
+    return message.type === 'DocumentMessage' ? <DocumentMessage>message : null;
+  }
+
+  isOptionsMessage(message: ChatMessage): boolean {
+    return message.type === 'OptionsMessage';
+  }
+
+  getOptionsMessage(message: ChatMessage): OptionsMessage | null {
+    return message.type === 'OptionsMessage' ? <OptionsMessage>message : null;
   }
 }

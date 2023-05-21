@@ -1,11 +1,10 @@
 <mat-card class="container">
   <div class="chat-box">
     <app-chat-box
+      (onSelectedChoiceDone)="onSelectedChoiceDone($event)"
       *ngIf="chat.length"
       [chat]="chat"
       [isGenerating]="isGeneratingResponse"
-      [options]="options"
-      [messageForOptions]="messageForOptions"
       (requestedTranslation)="onTranslateMessage($event)"
     ></app-chat-box>
     <app-category-shortcuts

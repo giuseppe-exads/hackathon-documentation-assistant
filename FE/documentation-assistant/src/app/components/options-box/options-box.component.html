@@ -1,9 +1,7 @@
-<mat-card>
-    <mat-list>
-        <div mat-subheader>{{ message }}</div>
-        <mat-list-item *ngFor="let option of options">
-            <mat-icon matListItemIcon>note</mat-icon>
-            <button (click)="onSelectedOption(option)" mat-button color="primary">{{ option.name }}</button>
-        </mat-list-item>
-    </mat-list>
-</mat-card>
+<mat-list>
+    <div mat-subheader>{{ message }}</div>
+    <mat-list-item *ngFor="let option of options; let i = index">
+        <mat-icon matListItemIcon>note</mat-icon>
+        <button (click)="onSelectedOption(i, option)" mat-button color="primary">{{ option.name }}</button>
+    </mat-list-item>
+</mat-list>
