@@ -17,7 +17,7 @@ export class OptionsBoxComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSelectedOption(category: Category) {
+  onSelectedOption(index:number, category: Category) {
     this.onSelectedChoice.emit(category);
   }
 

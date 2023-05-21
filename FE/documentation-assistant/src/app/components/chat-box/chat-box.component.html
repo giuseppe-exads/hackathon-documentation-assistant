@@ -1,14 +1,26 @@
 <div class="chat-container" #scrollContainer>
-  <mat-card
-    *ngFor="let message of chat"
-    [ngClass]="{ 'align-right': message.sender === 'User' }"
-  >
-    <p *ngIf="message.sender === 'System'" appTypewriter>
-      {{ message.text }}
-    </p>
-    <p *ngIf="message.sender === 'User'">
-      {{ message.text }}
-    </p>
+  <mat-card *ngFor="let message of chat; let i = index" 
+    [ngClass]="{ 'align-right': message.sender === 'User' }">
+    <div *ngIf="getChatText(message) as message">
+      <p *ngIf="message.sender === 'System'" appTypewriter>
+        {{ message.text }}
+      </p>
+      <p *ngIf="message.sender === 'User'">
+        {{ message.text }}
+      </p>
+    </div>
+    <div *ngIf="getDocumentMessage(message) as message">
+      <app-documentation-message 
+          [message]="message.category">
+      </app-documentation-message>
+    </div>
+    <div *ngIf="getOptionsMessage(message) as message">
+      <app-options-box *ngIf="message.options && message.options.length > 0" 
+        [options]="message.options"
+        (onSelectedChoice)="onSelectedChoice(i, $event)" 
+        [message]="message.text">
+      </app-options-box>
+    </div>
   </mat-card>
   <mat-card class="typing-card" *ngIf="isGenerating">
     <div class="typing-dots">
@@ -17,15 +29,4 @@
       <span class="dot"></span>
     </div>
   </mat-card>
-  <app-options-box
-    *ngIf="options && options.length > 0"
-    [options]="options"
-    (onSelectedChoice)="onSelectedChoice($event)"
-    [message]="messageForOptions"
-  >
-  </app-options-box>
-  <app-documentation-message
-    *ngIf="selectedChoice"
-    [message]="selectedChoice"
-  ></app-documentation-message>
 </div>
