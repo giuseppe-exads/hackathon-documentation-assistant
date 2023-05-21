@@ -40,7 +40,7 @@ export class AIService {
             );
     }
 
-    makeStepByCategory(selectedCategory: Category, messageFromUser: string): Observable<Category> {
+    makeStepByCategory(selectedCategory: Category, messageFromUser: string): Observable<Category[]> {
         return this.apiService.getCategoriesFromUI(2, selectedCategory._id)
             .pipe(
                 switchMap((subCategories) => {
@@ -50,7 +50,7 @@ export class AIService {
                         if you don't find any label return "No detected"`;
                     return this.openAIService.getDataFromOpenAI(messageToSend.trim())
                         .pipe(
-                            switchMap((messageFromChatGPT) => {
+                            map((messageFromChatGPT) => {
                                 const subCats = subCategories.map((category) => `${category.name}`);
                                 const response = messageFromChatGPT.trim();
                                 const subCategoriesByMessage = subCats.filter(categoryName => response.includes(categoryName));

@@ -139,14 +139,14 @@ export class ChatContainerComponent implements OnInit {
   onSelectMessageByCategory(message: string, category: Category) {
     const optionsToSend: ChatMessage[] = [];
     this.aiService.makeStepByCategory(category, message).subscribe(
-      (category) => {
+      (categories) => {
         this.isGeneratingResponse = false;
 
         optionsToSend.push({
           type: 'OptionsMessage',
           sender: 'System',
           text: 'Dear customer, based on you request, please select one of the next options',
-          options: [category]
+          options: categories
         } as OptionsMessage)
       },
       (error) => {
